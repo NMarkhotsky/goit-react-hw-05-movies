@@ -1,10 +1,17 @@
+import { Button, Form, Input } from './SearchForm.styled';
+import PropTypes from 'prop-types';
+
 const SearchForm = ({ onSubmit }) => {
   return (
-    <form onSubmit={onSubmit}>
-      <input type="text" name="search" />
-      <button type="submit">Search</button>
-    </form>
+    <Form onSubmit={onSubmit}>
+      <Input type="text" name="search" />
+      <Button type="submit">Search</Button>
+    </Form>
   );
+};
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

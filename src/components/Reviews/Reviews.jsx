@@ -1,6 +1,7 @@
 import { getReviewsMovie } from 'components/services/api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Item, List } from './Reviews.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
@@ -9,24 +10,23 @@ const Reviews = () => {
   useEffect(() => {
     const getMovieCredits = async () => {
       const resp = await getReviewsMovie(movieId);
-      console.log('resp: ', resp);
       setMovies([...resp]);
     };
 
     getMovieCredits();
   }, [movieId]);
 
-  // author, content
-
-  return (
-    <ul>
+  return movies.length !== 0 ? (
+    <List>
       {movies.map(({ id, author, content }) => (
-        <li key={id}>
+        <Item key={id}>
           <b>{author}</b>
           <p>{content}</p>
-        </li>
+        </Item>
       ))}
-    </ul>
+    </List>
+  ) : (
+    <b>We don't have any reviews for this movie</b>
   );
 };
 

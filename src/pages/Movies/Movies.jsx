@@ -1,8 +1,10 @@
+import { Suspense, useEffect, useState } from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import MoviesList from 'components/MoviesList/MoviesList';
 import SearchForm from 'components/SearchForm/SearchForm';
 import { getSearchMovie } from 'components/services/api';
-import React, { useEffect, useState } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
+import { Loader } from 'components/Loader/Loader';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,6 +16,7 @@ const Movies = () => {
 
     const getSearch = async () => {
       const resp = await getSearchMovie(movieName);
+      if (resp.length === 0) toast.error(`Oops...No such found`);
       setMovies([...resp]);
     };
 
@@ -31,7 +34,10 @@ const Movies = () => {
     <main>
       <SearchForm onSubmit={handleSubmit} />
       <MoviesList movies={movies} />
-      <Outlet />
+      <Toaster position="top-right" reverseOrder={true} />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
     </main>
   );
 };

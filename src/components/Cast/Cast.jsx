@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCreditsMovie } from 'components/services/api';
 
+import defaultImage from '../../images/noFoto.jpg';
+import { ItemCast, ListCast, Text } from './Cast.styled';
+
 const Cast = () => {
   const { movieId } = useParams();
   const [movies, setMovies] = useState([]);
@@ -15,22 +18,26 @@ const Cast = () => {
     getMovieCredits();
   }, [movieId]);
 
-  // name, character, profile_path
-  // https://image.tmdb.org/t/p/w500
-
   return (
-    <ul>
+    <ListCast>
       {movies.map(({ id, name, character, profile_path }) => (
-        <li key={id}>
+        <ItemCast key={id}>
           <img
-            src={`https://image.tmdb.org/t/p/w92${profile_path}`}
+            src={
+              profile_path
+                ? `https://image.tmdb.org/t/p/w92${profile_path}`
+                : defaultImage
+            }
             alt={name}
+            width={92}
           />
-          <p>{name}</p>
-          <p>Character: {character}</p>
-        </li>
+          <Text>{name}</Text>
+          <Text>
+            <b>Character:</b> {character}
+          </Text>
+        </ItemCast>
       ))}
-    </ul>
+    </ListCast>
   );
 };
 
