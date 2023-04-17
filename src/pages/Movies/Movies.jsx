@@ -25,8 +25,13 @@ const Movies = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+
     const value = e.target.search.value;
-    if (value.trim() !== '') setSearchParams({ query: value });
+
+    value.trim() !== ''
+      ? setSearchParams({ query: value })
+      : toast.error(`Oops...you haven't entered anything`);
+
     e.currentTarget.reset();
   };
 
